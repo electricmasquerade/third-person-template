@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://q3d6ng3o6idr"]
+
+[ext_resource type="Texture2D" uid="uid://bytgg7a1qpw8n" path="res://Textures/uvgrid/prototype-texture-with-size.png" id="1_qmps1"]
+
+[resource]
+albedo_texture = ExtResource("1_qmps1")
+uv1_triplanar = true
+texture_filter = 5

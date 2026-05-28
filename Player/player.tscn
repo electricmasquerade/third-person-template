@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bf8kvhjxp3lkk"]
+
+[ext_resource type="Script" uid="uid://1x5q23e13iun" path="res://Player/player.gd" id="1_4ntmi"]
+[ext_resource type="PackedScene" uid="uid://c23wue2cqeeo1" path="res://Characters/Universal Animation Library[Standard]/Unreal-Godot/UAL1_Standard.glb" id="1_l8h54"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ntmi"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1584671684]
+collision_mask = 2
+script = ExtResource("1_4ntmi")
+
+[node name="MovementCol" type="CollisionShape3D" parent="." unique_id=415098027]
+shape = SubResource("CapsuleShape3D_4ntmi")
+
+[node name="MeshPivot" type="Node3D" parent="." unique_id=1074724047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="UAL1_Standard" parent="MeshPivot" unique_id=316747825 instance=ExtResource("1_l8h54")]
+
+[node name="CamYaw" type="Node3D" parent="." unique_id=1572525014]
+
+[node name="CamPitch" type="Node3D" parent="CamYaw" unique_id=217133446]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamYaw/CamPitch" unique_id=2072344478]
+collision_mask = 2
+shape = SubResource("SphereShape3D_4ntmi")
+spring_length = 4.0
+
+[node name="ThirdPerCam" type="Camera3D" parent="CamYaw/CamPitch/SpringArm3D" unique_id=728286014]
