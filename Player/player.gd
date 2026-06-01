@@ -24,57 +24,41 @@ var cam_pitch: float = 0.0
 @export var turn_speed: float = 25.0 #speed the player turns towards the camera direction
 
 # state stuff
-var current_state := "idle"
-var states: Dictionary[Variant, Variant] = {
-	"idle": StateIdle.new(),
-	"walk": StateWalk.new()
-	}
 
+var states: Dictionary[String, StateBase] = {
+	"idle": StateIdle.new(),
+	"walk": StateWalk.new(),
+	"jump": StateJump.new()
+	}
+var current_state := "idle"
+
+# animation stuff
+@onready var anim_tree: AnimationTree = $MeshPivot/UAL1_Standard/AnimationTree
+@onready var playback: AnimationNodeStateMachinePlayback = anim_tree.get("parameters/playback")
+@onready var anim_speed := 0.0
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-func _unhandled_input(event):
+	states[current_state].enter(self)
+
+func _unhandled_input(event: InputEvent):
 	if event is InputEventMouseMotion:
 		cam_yaw += -event.relative.x * look_sensitivity
 		cam_pitch += -event.relative.y * look_sensitivity 
 		cam_pitch = clamp(cam_pitch, deg_to_rad(-70), deg_to_rad(65))
+		
+	states[current_state].handle_input(self, event)
+
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = jump
-		
-	if Input.is_action_just_pressed("pause"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	
 	var direction := compute_move_direction()
-	if direction:
-		velocity.x = direction.x * walk_speed
-		velocity.z = direction.z * walk_speed
-		mesh_pivot.rotation.y = lerp_angle(mesh_pivot.rotation.y, atan2(-velocity.x, -velocity.z), turn_speed * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0, walk_speed)
-		velocity.z = move_toward(velocity.z, 0, walk_speed)
-		
-	# rotate mesh pivot to face direction
-	#mesh_pivot.rotation.y = lerp_angle(mesh_pivot.rotation.y, atan2(-velocity.x, -velocity.z), turn_speed * delta)
+	
 
-		
-	#TODO: Put state machine stuff here
 	move_direction = direction
-
+	states[current_state].update(self, delta)
+	update_animation(delta)
 	handle_camera(delta)
 	move_and_slide()
 
@@ -100,8 +84,15 @@ func compute_move_direction() -> Vector3:
 	
 func transition_to_state(state: String) -> void:
 	if states.has(state):
+		print(state)
 		states[current_state].exit(self)
 		current_state = state
 		states[current_state].enter(self)
 	else:
 		push_error("State " + state + " does not exist in the state machine.")
+
+func update_animation(delta):
+	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
+	anim_speed = move_toward(anim_speed, horizontal_speed, delta * 10.0)
+	print(anim_speed)
+	anim_tree.set("parameters/locomotion/blend_position", anim_speed)
