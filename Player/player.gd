@@ -1,11 +1,10 @@
 extends CharacterBody3D
 class_name Player
 
-@export var walk_speed: float = 5.0
-@export var run_speed: float = 10.0
-@export var jump: float = 4.5
+@export var stats : PlayerStats
 var move_direction := Vector3.ZERO
 @onready var mesh_pivot: Node3D = $MeshPivot
+@onready var movement_col: CollisionShape3D = $MovementCol
 
 
 
@@ -21,24 +20,35 @@ var cam_pitch: float = 0.0
 @export var look_deadzone: float = 0.1
 
 @export var smoothing: float = 5.0
-@export var turn_speed: float = 25.0 #speed the player turns towards the camera direction
+@export var default_fov := 80.0
+var target_fov := 80.0
+@export var fov_speed := 10.0
+
+#raycasts for mantle check
+@onready var head_ray: RayCast3D = $MeshPivot/HeadRay
+@onready var chest_ray: RayCast3D = $MeshPivot/ChestRay
+@onready var target_ray: RayCast3D = $MeshPivot/MantleTarget #probably going to be unused
+var mantle_target := Vector3.ZERO
+
 
 # state stuff
 
-var states: Dictionary[String, StateBase] = {
+@onready var states: Dictionary[String, StateBase] = {
 	"idle": StateIdle.new(),
 	"walk": StateWalk.new(),
-	"jump": StateJump.new()
+	"sprint": StateSprint.new(),
+	"jump": StateJump.new(),
+	"fall": StateFall.new(),
+	"mantle": StateMantle.new(),
+	"land": StateLand.new()
 	}
-var current_state := "idle"
+@onready var current_state := "idle"
 
 # animation stuff
 @onready var anim_tree: AnimationTree = $MeshPivot/UAL1_Standard/AnimationTree
 @onready var playback: AnimationNodeStateMachinePlayback = anim_tree.get("parameters/playback")
-@onready var anim_speed := 0.0
 
 func _ready() -> void:
-
 	states[current_state].enter(self)
 
 func _unhandled_input(event: InputEvent):
@@ -51,16 +61,12 @@ func _unhandled_input(event: InputEvent):
 
 
 func _physics_process(delta: float) -> void:
-	
-
 	var direction := compute_move_direction()
-	
-
 	move_direction = direction
+	handle_camera(delta)
 	states[current_state].update(self, delta)
 	update_animation(delta)
-	handle_camera(delta)
-	move_and_slide()
+	
 
 func handle_camera(delta):
 	var axis_vector: Vector2 = Vector2.ZERO
@@ -75,6 +81,8 @@ func handle_camera(delta):
 			
 	cam_pitch_pivot.rotation.x = lerp_angle(cam_pitch_pivot.rotation.x, cam_pitch, smoothing * delta)
 	cam_yaw_pivot.rotation.y = lerp_angle(cam_yaw_pivot.rotation.y, cam_yaw, smoothing * delta)
+	
+	third_per_cam.fov = lerp(third_per_cam.fov, target_fov, fov_speed * delta)
 
 func compute_move_direction() -> Vector3:
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
@@ -93,6 +101,14 @@ func transition_to_state(state: String) -> void:
 
 func update_animation(delta):
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
-	anim_speed = move_toward(anim_speed, horizontal_speed, delta * 10.0)
-	print(anim_speed)
-	anim_tree.set("parameters/locomotion/blend_position", anim_speed)
+	anim_tree.set("parameters/locomotion/blend_position", horizontal_speed)
+
+func apply_horizontal_movement(target_speed, delta):
+	velocity.x = move_toward(velocity.x, move_direction.x * target_speed, target_speed/stats.accel_time * delta)
+	velocity.z = move_toward(velocity.z, move_direction.z * target_speed, target_speed/stats.accel_time * delta)
+	mesh_pivot.rotation.y = lerp_angle(mesh_pivot.rotation.y, atan2(-velocity.x, -velocity.z), stats.turn_speed * delta)
+
+func check_for_mantle():
+	if chest_ray.is_colliding() and not head_ray.is_colliding():
+		if move_direction.length_squared() > 0.01 and move_direction.dot(-chest_ray.get_collision_normal()) > 0.0:
+			return true

@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://d13e5518o0ukq"]
 
 [ext_resource type="Script" uid="uid://bp3wesxmmfy7y" path="res://Autoloads/game_manager.gd" id="1_rtikh"]
+[ext_resource type="PackedScene" uid="uid://mghgj8utdcxe" path="res://UI/debug.tscn" id="2_dmm7s"]
 
 [node name="GameManager" type="Node" unique_id=918337266]
 script = ExtResource("1_rtikh")
+
+[node name="Debug" parent="." unique_id=956635077 instance=ExtResource("2_dmm7s")]

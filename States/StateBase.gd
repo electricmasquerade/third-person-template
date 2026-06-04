@@ -13,3 +13,5 @@ func handle_input(player: Player, event):
 	
 func update(player: Player, delta: float):
 	pass
+
+	

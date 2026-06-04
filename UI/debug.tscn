@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://mghgj8utdcxe"]
+
+[ext_resource type="Script" uid="uid://dxt64b6kp1kl1" path="res://UI/debug.gd" id="1_er6vu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_n2ont"]
+font_size = 32
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Debug" type="CanvasLayer"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_er6vu")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 88.0
+text = "Debug"
+label_settings = SubResource("LabelSettings_n2ont")
+vertical_alignment = 1

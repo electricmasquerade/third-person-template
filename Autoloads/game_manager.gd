@@ -1,5 +1,6 @@
 extends Node
 
+@onready var debug: CanvasLayer = $Debug
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -12,3 +13,6 @@ func _process(delta: float) -> void:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			
+	if Input.is_action_just_pressed("debug"):
+		debug.visible = !debug.visible

@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://dmlndctngw102"]
+
+[ext_resource type="PackedScene" uid="uid://bf8kvhjxp3lkk" path="res://Player/player.tscn" id="2_5rltw"]
+[ext_resource type="PackedScene" uid="uid://7cnu7h531ab5" path="res://Scenes/Sandbox/sandbox.blend" id="2_f2t5y"]
+[ext_resource type="LightmapGIData" uid="uid://bnfytdnlhimnj" path="res://Scenes/Sandbox/sandbox.lmbake" id="3_5rltw"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_d7bho"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_2b6ht"]
+sky_material = SubResource("ProceduralSkyMaterial_d7bho")
+
+[sub_resource type="Environment" id="Environment_y0mvb"]
+background_mode = 2
+sky = SubResource("Sky_2b6ht")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_5rltw"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5rltw"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="SphereMesh" id="SphereMesh_5rltw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f2t5y"]
+
+[node name="Sandbox" type="Node3D" unique_id=883041073]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=817007217]
+environment = SubResource("Environment_y0mvb")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=202187757]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="Node3D" parent="." unique_id=1069570814]
+
+[node name="sandbox" parent="Ground" unique_id=560813890 instance=ExtResource("2_f2t5y")]
+
+[node name="Props" type="Node3D" parent="." unique_id=716435093]
+
+[node name="Cube" type="RigidBody3D" parent="Props" unique_id=1133491449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.19999999, -8)
+collision_layer = 4
+collision_mask = 7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Props/Cube" unique_id=805751521]
+gi_mode = 2
+mesh = SubResource("BoxMesh_5rltw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Props/Cube" unique_id=751504062]
+shape = SubResource("BoxShape3D_5rltw")
+
+[node name="Sphere" type="RigidBody3D" parent="Props" unique_id=997398030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, -8)
+collision_layer = 4
+collision_mask = 7
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Props/Sphere" unique_id=2146641004]
+mesh = SubResource("SphereMesh_5rltw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Props/Sphere" unique_id=953231395]
+shape = SubResource("SphereShape3D_f2t5y")
+
+[node name="Lights" type="Node3D" parent="." unique_id=587774919]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights" unique_id=1531270801]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -3)
+light_color = Color(1, 0.83137256, 0.64705884, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lights" unique_id=1797451257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 3, -14)
+light_color = Color(0.7058824, 0.7882353, 1, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="Player" parent="." unique_id=1584671684 instance=ExtResource("2_5rltw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=406294576]
+light_data = ExtResource("3_5rltw")
