@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ssqotegcnvtr"]
+
+[ext_resource type="PackedScene" uid="uid://kawide6042vh" path="res://Scenes/DemoLevel/demo_level.blend" id="1_cuyit"]
+[ext_resource type="PackedScene" uid="uid://bf8kvhjxp3lkk" path="res://Player/player.tscn" id="2_4jeaa"]
+[ext_resource type="LightmapGIData" uid="uid://dscvq5tlpbjce" path="res://Scenes/DemoLevel/demo_level.lmbake" id="3_0ubia"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4jeaa"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0ubia"]
+sky_material = SubResource("ProceduralSkyMaterial_4jeaa")
+
+[sub_resource type="Environment" id="Environment_yqbhg"]
+background_mode = 2
+sky = SubResource("Sky_0ubia")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="DemoLevel" type="Node3D" unique_id=833609066]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1420573062]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1430209664]
+environment = SubResource("Environment_yqbhg")
+
+[node name="demo_level" parent="." unique_id=289951567 instance=ExtResource("1_cuyit")]
+
+[node name="Player" parent="." unique_id=1584671684 instance=ExtResource("2_4jeaa")]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 25, 0, 22)
+
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=2011228044]
+quality = 2
+supersampling = true
+generate_probes_subdiv = 4
+light_data = ExtResource("3_0ubia")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=12605429]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3, 41)

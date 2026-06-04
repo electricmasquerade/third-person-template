@@ -86,7 +86,7 @@ func handle_camera(delta):
 
 func compute_move_direction() -> Vector3:
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
-	var direction := (cam_yaw_pivot.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := (cam_yaw_pivot.global_basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	return direction
 	
 	
