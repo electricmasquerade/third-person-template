@@ -39,22 +39,152 @@ materials/extract_format=0
 materials/extract_path=""
 _subresources={
 "nodes": {
+"PATH:Building": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_001": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_002": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_003": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_004": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_005": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_006": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_007": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_008": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_009": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_010": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Building_011": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_001": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_002": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_003": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_004": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_005": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_006": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_007": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_008": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_009": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Cube_010": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
 "PATH:Ground1": {
 "generate/physics": true,
 "physics/layer": 2,
 "physics/mask": 0
 },
-"PATH:House": {
+"PATH:Ground1_001": {
 "generate/physics": true,
 "physics/layer": 2,
 "physics/mask": 0
 },
-"PATH:House_001": {
+"PATH:Ground1_002": {
 "generate/physics": true,
 "physics/layer": 2,
 "physics/mask": 0
 },
-"PATH:House_002": {
+"PATH:Ground1_003": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Ground1_004": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Ramp": {
+"generate/physics": true,
+"physics/layer": 2,
+"physics/mask": 0
+},
+"PATH:Ramp_001": {
 "generate/physics": true,
 "physics/layer": 2,
 "physics/mask": 0

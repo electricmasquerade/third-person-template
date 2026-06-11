@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bwutvfxt6do3g"]
+
+[ext_resource type="PackedScene" uid="uid://dnix3fuei217m" path="res://Scenes/LightingDemo/lighting_level.blend" id="1_puwkl"]
+[ext_resource type="Texture2D" uid="uid://c6ct2pd18ilff" path="res://Scenes/LightingDemo/Textures/Tunnel/UVGrid_BaseColor.png" id="2_1a643"]
+[ext_resource type="PackedScene" uid="uid://bf8kvhjxp3lkk" path="res://Player/player.tscn" id="2_bjv53"]
+[ext_resource type="LightmapGIData" uid="uid://cg4xhd751hkd5" path="res://Scenes/LightingDemo/lighting_level.lmbake" id="3_bjv53"]
+[ext_resource type="Texture2D" uid="uid://fie2rk46pl3i" path="res://Scenes/LightingDemo/Textures/Tunnel/UVGrid_ORM.png" id="3_f7u5d"]
+[ext_resource type="Texture2D" uid="uid://en0s7f2viqn8" path="res://Scenes/LightingDemo/Textures/Tunnel/UVGrid_Normal.png" id="4_7dpyu"]
+[ext_resource type="Texture2D" uid="uid://diikmmn1em6gw" path="res://Scenes/LightingDemo/Textures/Tunnel/UVGrid_Displacement.png" id="4_f7u5d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qp7fp"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_bn1pa"]
+sky_material = SubResource("ProceduralSkyMaterial_qp7fp")
+
+[sub_resource type="Environment" id="Environment_1a643"]
+background_mode = 2
+sky = SubResource("Sky_bn1pa")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bjv53"]
+albedo_texture = ExtResource("2_1a643")
+metallic = 1.0
+metallic_texture = ExtResource("3_f7u5d")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("3_f7u5d")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_7dpyu")
+ao_enabled = true
+ao_texture = ExtResource("3_f7u5d")
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("4_f7u5d")
+
+[node name="LightingLevel" type="Node3D" unique_id=649707380]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1835646576]
+environment = SubResource("Environment_1a643")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1336196995]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="lighting_level" parent="." unique_id=47640470 instance=ExtResource("1_puwkl")]
+
+[node name="Tunnel" parent="lighting_level" index="1" unique_id=455340091]
+material_override = SubResource("StandardMaterial3D_bjv53")
+
+[node name="Player" parent="." unique_id=1584671684 instance=ExtResource("2_bjv53")]
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="." unique_id=638054700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 50.5)
+size = Vector3(24, 11, 25)
+enable_shadows = true
+
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=396582453]
+generate_probes_subdiv = 4
+light_data = ExtResource("3_bjv53")
+
+[node name="TunnelLights" type="Node3D" parent="." unique_id=482152966]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="TunnelLights" unique_id=513450906]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 43)
+light_specular = 0.0
+shadow_enabled = true
+omni_range = 10.0
+omni_attenuation = 2.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="TunnelLights" unique_id=2092609576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 50.6)
+light_specular = 0.0
+shadow_enabled = true
+omni_range = 10.0
+omni_attenuation = 2.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="TunnelLights" unique_id=1613940302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 58.2)
+light_specular = 0.0
+shadow_enabled = true
+omni_range = 10.0
+omni_attenuation = 2.0
+
+[editable path="lighting_level"]
